@@ -4,7 +4,8 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const movieRouter = require('./Routes/movieRoute')
 const userRouter = require('./Routes/userRoute')
-const showRoute = require('./Routes/showRoute')
+const showRouter = require('./Routes/showRoute')
+const theatreRouter = require('./Routes/theatreRoute')
 var mongoose =require("mongoose");
 mongoose.set("strictQuery",true)
 
@@ -21,7 +22,8 @@ app.use(cors());
 
 app.use("/movies", movieRouter)
 app.use("/users", userRouter)
-app.use('/shows',showRoute)
+app.use('/shows',showRouter)
+app.use('/theatres', theatreRouter)
 
 app.listen(4000,()=>{
     console.log("Server started at 4000");
