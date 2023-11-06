@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const seatSchema = new mongoose.Schema({
-  seatId: String, // Change type to String for alphanumeric identifiers
+  seatId: String,
   isOccupied: {
     type: Boolean,
     default: false
@@ -17,6 +17,8 @@ const seatSchema = new mongoose.Schema({
 
 const showSchema = new mongoose.Schema({
   showName: String,
+  location: String,
+  theater: String,
   date: Date,
   time: String,
   seats: [seatSchema]
