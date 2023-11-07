@@ -46,7 +46,7 @@ const removeOldShows = async () => {
         const location = req.body.location;
         const theater = req.body.theater;
         const data = {
-            showname: showname,
+            showName: showname,
             location: location,
             theater: theater,
             time: time,
