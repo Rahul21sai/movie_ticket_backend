@@ -72,7 +72,48 @@ const removeOldShows = async () => {
     }
 });
 
-
+showRoute.get('/userBookedSeats/:userId', async (req, res) => {
+    const userId = req.params.userId;
+  
+    try {
+      const bookedShows = await showSchema.aggregate([
+        {
+          $match: {
+            "seats.userDetails": mongoose.Types.ObjectId(userId)
+          }
+        },
+        {
+          $group: {
+            _id: {
+              showName: "$showName",
+              location: "$location",
+              theater: "$theater",
+              date: "$date",
+              time: "$time"
+            },
+            totalSeatsBooked: { $sum: { $size: { $filter: { input: "$seats", as: "seat", cond: { $eq: ["$$seat.userDetails", mongoose.Types.ObjectId(userId)] } } } } },
+            seatIds: { $push: { $map: { input: { $filter: { input: "$seats", as: "seat", cond: { $eq: ["$$seat.userDetails", mongoose.Types.ObjectId(userId)] } } }, as: "seat", in: "$$seat.seatId" } } }
+          }
+        }
+      ]);
+  
+      const output = bookedShows.map(show => ({
+        showName: show._id.showName,
+        location: show._id.location,
+        theater: show._id.theater,
+        date: show._id.date,
+        time: show._id.time,
+        totalSeatsBooked: show.totalSeatsBooked,
+        seatIds: show.seatIds[0]
+      }));
+  
+      res.json(output);
+  
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  });
 
 showRoute.route("/updateshow/:id")
     .get((req, res) => {
