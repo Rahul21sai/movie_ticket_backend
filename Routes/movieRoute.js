@@ -20,7 +20,14 @@ movieRoute.get("/",(req,res)=>{
             res.json(data);
     })
 })
-
+movieRoute.get("/get-details/:id",(req,res)=>{
+    movieSchema.findById(mongoose.Types.ObjectId(req.params.id),(err,data)=>{
+        if(err)
+            return err;
+        else
+            res.json(data);
+    })
+})
 movieRoute.route("/update-movie/:id")
 .get((req,res)=>{
     movieSchema.findById(mongoose.Types.ObjectId(req.params.id),(err,data)=>{
