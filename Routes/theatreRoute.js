@@ -21,10 +21,8 @@ theatreRoute.get("/",(req,res)=>{
     })
 })
 
-theatreRoute.get("/get-cities/:movieName", (req, res) => {
-    const movieName = req.params.movieName;
-
-    theatreSchema.distinct("city", { "movie": movieName }, (err, data) => {
+theatreRoute.post("/get-cities/", (req, res) => {
+    theatreSchema.distinct("city", req.body, (err, data) => {
         if(err) return err
         res.json(data);
     });
