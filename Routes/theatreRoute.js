@@ -21,18 +21,17 @@ theatreRoute.get("/",(req,res)=>{
     })
 })
 
-theatreRoute.get("/get-cities",(req,res)=>{
-    theatreSchema.distinct("city",(err,data)=>{
-        if(err) 
-            return err;
-        else
-            // console.log(data);
-            res.json(data);
-    })
-})
+theatreRoute.get("/get-cities/:movieName", (req, res) => {
+    const movieName = req.params.movieName;
 
-theatreRoute.get('/get-theaters/:city', (req, res) => {
-    theatreSchema.find({city:req.params.city}, (err, data) => {
+    theatreSchema.distinct("city", { "movie": movieName }, (err, data) => {
+        if(err) return err
+        res.json(data);
+    });
+});
+
+theatreRoute.post('/get-theaters/', (req, res) => {
+    theatreSchema.find(req.body, (err, data) => {
         if(err) return err;
         else {
             res.json(data);
