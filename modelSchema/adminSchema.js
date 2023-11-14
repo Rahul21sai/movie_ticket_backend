@@ -1,10 +1,9 @@
 const mongoose = require('mongoose')
 const adminSchema = new mongoose.Schema({
-    "name": {type:String},
     "email": {type: String},
     "password": {type: String}
 }, {
-    "collection": "admin"
+    "collection": "admins"
 })
 
 module.exports = mongoose.model("adminSchema", adminSchema)
