@@ -72,6 +72,33 @@ const removeOldShows = async () => {
     }
 });
 
+  showRoute.get('/alldetails', async (req, res) => {
+    const showsDetails = [];
+    const showsData = await showSchema.find();
+    showsData.forEach(show => {
+      const freeSeats = show.seats.filter(seat => !seat.isOccupied).length;
+      const occupiedSeats = show.seats.filter(seat => seat.isOccupied).length;
+      const showDetailsWithSeats = {
+        showDetails: {
+          showName: show.showName,
+          location: show.location,
+          theater: show.theater,
+          date: show.date,
+          time: show.time,
+          totalSeats: show.seats.length
+        },
+        seatStatus: {
+          freeSeats,
+          occupiedSeats
+        }
+      };
+
+      showsDetails.push(showDetailsWithSeats);
+    });
+
+    res.json(showsDetails);
+  });
+
 showRoute.get('/userBookedSeats/:userId', async (req, res) => {
     const userId = req.params.userId;
   
