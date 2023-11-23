@@ -1,17 +1,19 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
-const seatSchema = new mongoose.Schema({
-  seatId: String,
-  isOccupied: {
-    type: Boolean,
-    default: false
+const seatSchema = new mongoose.Schema(
+  {
+    seatId: String,
+    isOccupied: {
+      type: Boolean,
+      default: false,
+    },
+    userDetails: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
   },
-  userDetails: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User'
-  }
-  },{
-    collection:"showdb"
+  {
+    collection: "showdb",
   }
 );
 
@@ -21,7 +23,7 @@ const showSchema = new mongoose.Schema({
   theater: String,
   date: Date,
   time: String,
-  seats: [seatSchema]
+  seats: [seatSchema],
 });
 
-module.exports=mongoose.model('showdb',showSchema);
+module.exports = mongoose.model("showdb", showSchema);
